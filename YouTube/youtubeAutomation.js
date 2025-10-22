@@ -8,11 +8,20 @@ const youtubeAutomation = asyncHandler(async (webhookBody) => {
     const payload = webhookBody?.payload;
     if (!payload?.object) throw new Error("Invalid webhook body: missing payload.object");
 
-    // 1) Download Zoom MP4
-    const videoFile = await downloadZoomVideo(webhookBody);
-
-    // 2) Prepare YouTube metadata
+    // 1.) Prepare YouTube metadata
     const topic = payload.object.topic || "Zoom Recording";
+    const allowedTopics = ["Java Full Stack with SpringBoot", "Java Full Stack Online (25-Oct)"];
+
+    // ✅ Process only specific topics
+    if (!allowedTopics.some(t => topic.toLowerCase().includes(t.toLowerCase()))) {
+        console.log(`⏩ Skipped topic "${topic}" — not in allowed list.`);
+        return; // exit without processing
+    }
+
+    console.log(`🎬 Processing YouTube automation for topic: "${topic}"`);
+
+    // 2.) Download Zoom MP4
+    const videoFile = await downloadZoomVideo(webhookBody);
     const date = payload.object.start_time.substring(0,10);
 
     const title = `${topic} | ${date}`;
