@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Anish Gupta",
+        "phone": "9617130889",
+        "email": "anishgupta0066@gmail.com",
+        "batchName": "GenWizard (30-Aug)"
+    },
+    {
+        "name": "Sumit Kalra",
+        "phone": "7838402000",
+        "email": "sumitkalra120@gmail.com",
+        "batchName": "GenWizard (30-Aug)"
+    },
+    {
+        "name": "Arth Sharma",
+        "phone": "9630233051",
+        "email": "arth.sharma2010@gmail.com",
+        "batchName": "GenWizard (30-Aug)"
+    },
+    {
+        "name": "Somil Khare",
+        "phone": "9873503384",
+        "email": "shomilkhare@gmail.com",
+        "batchName": "React Online (20-Sep)"
+    },
+    {
+        "name": "Shruti Jain",
+        "phone": "8827666109",
+        "email": "jshruti123sjp@gmail.com",
+        "batchName": "GenWizard (30-Aug)"
+    },
+    {
+        "name": "Shri Hari Pandey",
+        "phone": "9754816799",
+        "email": "shrihariabhishek12@gmail.com",
+        "batchName": "Java Full Stack with SpringBoot"
+    }
+]
