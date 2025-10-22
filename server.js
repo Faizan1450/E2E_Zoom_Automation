@@ -4,6 +4,7 @@ import "./crons/autoResetPassword.cron.js";
 import { globalErrorhandler, notFound } from './middleware/globalErrorHandler.js';
 import backupRouter from './router/backupRouter.js';
 import addStudentsRouter from './router/addStudentsRouter.js';
+import healthCheckRouter from "./router/healthCheckRouter.js"
 
 //! Load the Environment Variable
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Routes
 //?Setup the User route
+app.use("/", healthCheckRouter);
 app.use('/api/v1/backup', backupRouter);
 app.use('/api/v1/students', addStudentsRouter);
 
