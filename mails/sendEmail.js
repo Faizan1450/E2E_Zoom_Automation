@@ -65,9 +65,9 @@ export const sendEmail = asyncHandler(async (student, status) => {
         console.log(`Sending email to ${mailOptions.to}`);
         const info = await transporter.sendMail(mailOptions);
         console.log(`✅ Email sent successfully to ${mailOptions.to}`);
-        return { status: "Success", message: "Mail Sent", info };
+        return { status: "Success", message: "Backup Mail Sent", info };
     } catch (error) {
         console.log(`❌ Error in Send Email File: ${error.message}`);
-        throw error
+        return { status: "Failed", message: error.message };
     }
 })

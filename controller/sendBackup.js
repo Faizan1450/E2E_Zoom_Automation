@@ -56,10 +56,10 @@ const sendBackup = asyncHandler(async (req, resp) => {
     console.log(`Passcode is fetched for ${student.email}`)
 
     //! code to send mail
-    sendEmail(student, "success")
+    const mailStatus = sendEmail(student, "success")
     resp.status(200).json({
-        status: "Success",
-        message: "Backup Sent"
+        status: mailStatus.status,
+        message: mailStatus.message
     });
 })
 
