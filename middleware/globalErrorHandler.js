@@ -4,8 +4,8 @@ export const globalErrorhandler = (error, req, resp, next) => {
     const stack = error?.stack;
     const statusCode = error?.statusCode ? error.statusCode : 500;
     console.log("Error catched in global Error handler")
-    console.log({status, message, stack })
-    resp.status(statusCode).json({ status, message, stack });
+    console.log({ status, message, stack })
+    resp.status(statusCode).send({ status, message, stack });
 };
 
 export const notFound = (req, resp, next) => {

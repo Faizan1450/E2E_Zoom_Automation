@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import {sendEmail} from "../mails/sendEmail.js";
+import { sendEmail } from "../mails/sendEmail.js";
 import { getPasscode } from "../utils/getPasscode.js";
 import { searchBackup } from "../utils/searchBackup.js";
 import { verifyEnrollment } from "../utils/verifyEnrollment.js";
@@ -23,11 +23,11 @@ const sendBackup = asyncHandler(async (req, resp) => {
         console.log(`Already Received ${student.count - 1} Backups in Last 7 Days`)
         resp.status(200).json({
             status: "Failed",
-            message: `Already Received ${student.count-1} Backups in Last 7 Days`
+            message: `Already Received ${student.count - 1} Backups in Last 7 Days`
         });
         return sendEmail(student, "multipleBackups");
     }
-    
+
     //! Search Backup for that date
     let result = await searchBackup(student) //append batchID, messageID, url
     if (!result) {
