@@ -9,6 +9,7 @@ import asyncHandler from 'express-async-handler'
 import { resetSuccess } from './resetSuccessMail.js';
 import { youtubeSuccess } from './youtubeSuccessMail.js';
 import { multipleBackupsMail } from './multipleBackupsMail.js';
+import { response } from 'express';
 
 // 1. Create a "transporter" object
 // This is the object that will actually send the email.
@@ -67,6 +68,6 @@ export const sendEmail = asyncHandler(async (student, status) => {
         return { status: "Success", message: "Mail Sent", info };
     } catch (error) {
         console.log(`❌ Error in Send Email File: ${error.message}`);
-        return { status: "Failed", message: error.message };
+        throw error
     }
 })
