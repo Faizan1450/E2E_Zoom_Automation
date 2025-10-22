@@ -9,15 +9,15 @@ import asyncHandler from 'express-async-handler'
 import { resetSuccess } from './resetSuccessMail.js';
 import { youtubeSuccess } from './youtubeSuccessMail.js';
 import { multipleBackupsMail } from './multipleBackupsMail.js';
-import { response } from 'express';
 
 // 1. Create a "transporter" object
 // This is the object that will actually send the email.
 // We configure it to use Gmail's SMTP server.
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST, // smtp.gmail.com
-    port: Number(process.env.EMAIL_PORT), // 465
-    secure: process.env.EMAIL_SECURE === "true", // true means SSL
+    // host: process.env.EMAIL_HOST, // smtp.gmail.com
+    // port: Number(process.env.EMAIL_PORT), // 465
+    // secure: process.env.EMAIL_SECURE === "true", // true means SSL
+    service:"gmail",
     auth: {
         user: process.env.EMAIL_USER, // your gmail
         pass: process.env.EMAIL_PASS  // your app password
