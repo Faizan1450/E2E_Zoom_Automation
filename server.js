@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import "./crons/autoResetPassword.cron.js";
 import { globalErrorhandler, notFound } from './middleware/globalErrorHandler.js';
 import backupRouter from './router/backupRouter.js';
 import addStudentsRouter from './router/addStudentsRouter.js';
