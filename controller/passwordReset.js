@@ -1,12 +1,28 @@
-import 'dotenv/config';
-import { updateRecordingSettings, getRecordingSettings } from "./recordingSetting.js"
+import { updateRecordingSettings, getRecordingSettings } from "../utils/recordingSetting.js"
 import asyncHandler from "express-async-handler"
-import { getMeetings } from "./getMeetings.js";
+import { getMeetings } from "../utils/getMeetings.js";
+import { sendEmail } from "../mails/sendEmail.js";
 
-export const autoResetPassword = asyncHandler(async () => {
-    const from = getDateAgo(15)
+export const passwordReset = asyncHandler(async (req, resp) => {
+    let {from, to} = req.body;
 
-    const meetings = await getMeetings(from);
+    if (isNaN(from) || isNaN(to)) {
+        resp.status(400).json({ status: "Failed", message: "Invalid 'from' or 'to' value" });
+        return 
+    } 
+
+    from = Number(from)
+    to = Number(to)
+
+    if(from < to) {
+        resp.status(400).json({ status: "Failed", message: "'from' should be greater or equal to 'to'" });
+        return 
+    }
+
+    from = getDateAgo(from)
+    to = getDateAgo(to)
+
+    const meetings = await getMeetings(from, to);
     if (!meetings) {
         //! Code to mail that backup is not found
         console.error(`Something went wrong in autoResetPassword file's API call `);
@@ -29,7 +45,13 @@ export const autoResetPassword = asyncHandler(async () => {
             newPasscode: await updateRecordingSettings(lecture.meeting_id)
         })
     }
-    return tracking
+
+    const mailResponse = await sendEmail(tracking, "resetSuccess")
+    console.log(`🔐 Auto Reset Success - New Passcodes Generated for All Recordings`);
+    resp.status(200).json({
+        status: mailResponse.status,
+        message: `${mailResponse.message} 🔐 New Passcodes Generated for All Recordings`
+    });
 })
 
 function getDateAgo(daysAgo = 0) {
