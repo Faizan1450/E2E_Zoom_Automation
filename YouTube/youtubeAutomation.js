@@ -10,11 +10,10 @@ const youtubeAutomation = asyncHandler(async (webhookBody) => {
 
     // 1.) Prepare YouTube metadata
     const topic = payload.object.topic || "Zoom Recording";
-    const allowedTopics = ["Java Full Stack with SpringBoot", "Java Full Stack Online (25-Oct)"];
+    const allowedTopics = ["Java Full Stack with SpringBoot", "Java Full Stack Online (25-Oct)", "Sharma Computer Academy's Zoom Meeting"];
 
     // ✅ Process only specific topics
     if (!allowedTopics.some(t => topic.toLowerCase().includes(t.toLowerCase()))) {
-        console.log(`⏩ Skipped topic "${topic}" — not in allowed list.`);
         return; // exit without processing
     }
 
@@ -22,7 +21,7 @@ const youtubeAutomation = asyncHandler(async (webhookBody) => {
 
     // 2.) Download Zoom MP4
     const videoFile = await downloadZoomVideo(webhookBody);
-    const date = payload.object.start_time.substring(0,10);
+    const date = payload.object.start_time.substring(0, 10);
 
     const title = `${topic} | ${date}`;
     const description = [
@@ -42,13 +41,13 @@ const youtubeAutomation = asyncHandler(async (webhookBody) => {
             tags: ["Zoom", "Lecture", "SCA"],
             privacyStatus: "unlisted",
         });
-    } catch(error) {
+    } catch (error) {
         console.log("Error while uploading on youtube")
         console.log(error)
         return;
     }
 
-    await sendEmail({ title, date, youtubeURL},"youtube")
+    await sendEmail({ title, date, youtubeURL }, "youtube")
 });
 
 export default youtubeAutomation;

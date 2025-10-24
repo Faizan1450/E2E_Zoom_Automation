@@ -9,7 +9,7 @@ export const getMeetings = asyncHandler(async (from, to) => {
     const res = await fetch(endpoint, { headers: { Authorization: `Bearer ${token}` } });
 
     if (!res.ok) {
-        console.log("Get Meetings File Failed at response")
+        console.error("Get Meetings File Failed at response")
         return null;
     }
     const data = await res.json();

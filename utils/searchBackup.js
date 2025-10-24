@@ -24,7 +24,7 @@ export const searchBackup = asyncHandler(async (student) => {
             student.url = lecture.play_url
             student.meeting_id = lecture.meeting_id
             student.date = lecture.recording_start.substring(0, 10)
-            console.log("URL are fetched ✅")
+            console.log("Video URL is fetched ✅")
             return true;
         }
     }

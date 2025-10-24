@@ -4,21 +4,19 @@ import asyncHandler from "express-async-handler"
 import { getMeetings } from "./getMeetings.js";
 
 export const autoResetPassword = asyncHandler(async () => {
-    const today = new Date()
     const from = getDateAgo(15)
-    console.log(`Auto Reset Passwords Code Triggered on ${today.toLocaleString()}`);
 
     const meetings = await getMeetings(from, from);
     if (!meetings) {
         //! Code to mail that backup is not found
-        console.log(`Something went wrong in autoResetPassword file's API call `);
+        console.error(`Something went wrong in autoResetPassword file's API call `);
         return false;
     }
     const tracking = [];
     for (const meeting of meetings) {
         let lecture = (meeting.recording_files || []).find(f => f.file_type === 'MP4' && f.status === 'completed');
         if (!lecture) {
-            console.log("Error in autoResetPassword File")
+            console.log(`MP4 File with completed status not found for ${meeting.topic}and ${meeting.start_time.substring(0, 10)}`)
             continue;
         }
         const settings = await getRecordingSettings(lecture.meeting_id)

@@ -7,7 +7,7 @@ export const verifyEnrollment = asyncHandler(async (student) => {
     const token = await getToken()
     const res = await fetch(endpoint, { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) {
-        console.log("VerifyEnrolment File Failed at response")
+        console.error("Verify Enrolment File Failed at response")
         return false;
     }
 
@@ -18,7 +18,5 @@ export const verifyEnrollment = asyncHandler(async (student) => {
         console.log(`${student.name} is Approved for ${student.batchName} batch`)
         return true;
     }
-    console.log(`${student.name} is NOT approved for ${student.batchName} batch`)
     return false;
-    // return true
 })
