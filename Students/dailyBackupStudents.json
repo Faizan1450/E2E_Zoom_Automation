@@ -40,5 +40,11 @@
         "phone": "9754816799",
         "email": "shrihariabhishek12@gmail.com",
         "batchName": "Java Full Stack with SpringBoot"
+    },
+    {
+        "name": "Sandeep",
+        "phone": "9171825089",
+        "email": "sandeepgour597@gmail.com",
+        "batchName": "Spring Microservices"
     }
 ]
