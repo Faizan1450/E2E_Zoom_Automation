@@ -46,5 +46,35 @@
         "phone": "9171825089",
         "email": "sandeepgour597@gmail.com",
         "batchName": "Spring Microservices"
+    },
+    {
+        "name": "Jaydeep Jitendra",
+        "phone": "7488462727",
+        "email": "jjaydeep200k@gmail.com",
+        "batchName": "GenWizard (30-Aug)"
+    },
+    {
+        "name": "Jaydeep Jitendra",
+        "phone": "7488462727",
+        "email": "jjaydeep200k@gmail.com",
+        "batchName": "Spring (20-Aug)"
+    },
+    {
+        "name": "Vivek Kumar",
+        "phone": "9572088843",
+        "email": "vivekkumar29793@gmail.com",
+        "batchName": "DSA in Java (7-Oct-25)"
+    },
+    {
+        "name": "Anoop Tiwari",
+        "phone": "9958840781",
+        "email": "tiwari.anoop@outlook.com",
+        "batchName": "DSA in Java (7-Oct-25)"
+    },
+    {
+        "name": "Gurpreet Singh",
+        "phone": "7340922120",
+        "email": "sgurpreet759@gmail.com",
+        "batchName": "DSA in Java (7-Oct-25)"
     }
 ]
