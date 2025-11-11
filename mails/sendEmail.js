@@ -41,22 +41,35 @@ export const sendEmail = asyncHandler(async (student, status) => {
         subject = `Backup Request Limit Reached for ${student.batchName}`;
     }
 
-    try {
-        const res = await resend.emails.send({
-            from: 'SCALive <no-reply@scalive.in>', // use verified sender later
-            to: receiver,
-            subject,
-            html: mailHTML,
-        });
+    let attempt = 0;
+    let maxAttempt = 2;
+    while (true) {
+        try {
+            const res = await resend.emails.send({
+                from: 'SCALive <no-reply@scalive.in>', // use verified sender later
+                to: receiver,
+                subject,
+                html: mailHTML,
+            });
 
-        // Log everything you get back
-        if (res?.error) {
-            throw res.error
+            // Log everything you get back
+            if (res?.error) {
+                throw res.error
+            }
+            console.log(`✅ Email sent successfully to ${receiver}`);
+            return { status: 'Success', message: '' };
+        } catch (error) {
+            attempt++;
+            if (attempt < maxAttempt) {
+                console.error('❌ Error in Send Email File:', error.message);
+                console.error('Retrying Attempt');
+                await sleep(1000);
+                continue;
+            }
+            console.error('❌ Error in Send Email File:', error.message);
+            return { status: 'Failed', message: error.message };
         }
-        console.log(`✅ Email sent successfully to ${receiver}`);
-        return { status: 'Success', message: '' };
-    } catch (error) {
-        console.error('❌ Error in Send Email File:', error.message);
-        return { status: 'Failed', message: error.message };
     }
 });
+
+const sleep = ms => new Promise(res => setTimeout(res, ms));
