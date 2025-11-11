@@ -55,32 +55,31 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
 
             // Require Variables
             let lecture = (req.body.payload.object.recording_files || []).find(f => f.file_type === 'MP4' && f.status === 'completed');
-            const date = (lecture.recording_start || payload?.object?.start_time || "").slice(0, 10);
+            const date = (lecture.recording_start || req.body.payload?.object?.start_time || "").slice(0, 10);
 
-            console.log("Log before promise")
+            // Passcode
+            const passcode = await getPasscode({meeting_id: lecture.meeting_id});
 
-            await Promise.all(
-                students.map(async (student) => {
-                    console.log("Entered in promise")
-                    const enriched = {
-                        ...student,
-                        url: lecture.play_url,              // Requires download token or OAuth
-                        meeting_id: lecture.meeting_id,
-                        date
-                    };
+            for(const student of students) {
+                console.log("Entered in promise")
+                student.url = lecture.play_url
+                student.meeting_id = lecture.meeting_id
+                student.date = date
 
-                    // ensure passcode
-                    enriched.passcode = await getPasscode(enriched);
+                // ensure passcode
+                student.passcode = passcode
 
-                    console.log(`✅ Prepared backup for ${enriched.email} (${enriched.batchName})`);
-                    await sendEmail(enriched, "success");
-                })
-            );
+                console.log(`✅ Prepared backup for ${student.email} (${student.batchName})`);
+                await sendEmail(student, "success");
+                await sleep(1000);
+            }
         } catch (error) {
             console.log(error)
             return error
         }
     }
 })
+
+const sleep = ms => new Promise(res => setTimeout(res, ms));
 
 export default sendDailyBackup
