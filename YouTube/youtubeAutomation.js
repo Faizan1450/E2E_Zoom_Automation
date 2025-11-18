@@ -10,7 +10,7 @@ const youtubeAutomation = asyncHandler(async (webhookBody) => {
 
     // 1.) Prepare YouTube metadata
     const topic = payload.object.topic || "Zoom Recording";
-    const allowedTopics = ["Java Full Stack with SpringBoot", "Java Full Stack Online (25-Oct)", "Sharma Computer Academy's Zoom Meeting", "Front-end"];
+    const allowedTopics = ["Java Full Stack with SpringBoot", "Java Full Stack Online (25-Oct)", "Sharma Computer Academy's Zoom Meeting", "Front-end", "Generative AI (14-Nov)", "GenAI (29-nov-25)"];
 
     // ✅ Process only specific topics
     if (!allowedTopics.some(t => topic.toLowerCase().includes(t.toLowerCase()))) {
