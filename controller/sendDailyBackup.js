@@ -36,7 +36,8 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
 
     if (event === "recording.completed") {
         try {
-            youtubeAutomation(req.body)
+            // Stopping youtube automation, as its not required after classplus update
+            // youtubeAutomation(req.body)
             // Meting topic
             const topic = req.body.payload.object.topic.trim().toLowerCase()
             // Find students
