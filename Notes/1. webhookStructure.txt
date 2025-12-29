@@ -1,0 +1,54 @@
+{
+  payload: {
+    account_id: 'vvUjsQZST2yF0EsHHuNEdg',
+    object: {
+      uuid: 'VVXttCtQRZ2axbupmpAzXQ==',
+      id: 84175085006,
+      account_id: 'vvUjsQZST2yF0EsHHuNEdg',
+      host_id: 'Nn6etzffQBK1EQPMOh2XTA',
+      topic: "Sharma Computer Academy's Zoom Meeting",
+      type: 1,
+      start_time: '2025-12-29T08:54:02Z',
+      timezone: '',
+      host_email: 'scalive4u@gmail.com',
+      duration: 0,
+      total_size: 21277,
+      recording_count: 1,
+      share_url: 'https://us02web.zoom.us/rec/share/ZD7xgj3EAopDPDMrfQwFFkIt3hiGElzMLX7XulerTqLTDCw4P2YNgzTu00j-_kBs.7Q7CGVQLu6n6yoRk',
+      recording_files: [Array],
+      password: 'GBDF?g9p',
+      recording_play_passcode: 'DFHEAUrcImRgrVsB-gAAIAAAAL3_ElEVCqbMoKihVtA0paCZ8oNPuRjREDrJ7WImStZbNEmveiHBe-8sR7fONhmM7DAwMDAwNA',
+      on_prem: false
+    }
+  },
+  event_ts: 1766998497617,
+  event: 'recording.completed',
+  download_token: 'eyJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsInR5cCI6IkpXVCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJXZWJSZWNEb3dubG9hZCIsImFjY291bnRJZCI6InZ2VWpzUVpTVDJ5RjBFc0hIdU5FZGciLCJpc3MiOiJFdmVudENvbnN1bWVyUmVjRG93bmxvYWQiLCJtaWQiOiJWVlh0dEN0UVJaMmF4YnVwbXBBelhRPT0iLCJleHAiOjE3NjcwODQ5MTcsImlhdCI6MTc2Njk5ODUxNywidXNlcklkIjoiTm42ZXR6ZmZRQksxRVFQTU9oMlhUQSJ9.-jY4cxw2psLZrLkOnKyj4Ns4ziyhXPCs2h-Y5jaLMdbsJ2Ahpb3CRZifdiASaXTosB58qHS0hcZOkXr-HqF5DQ'
+}
+{
+  payload: {
+    account_id: 'vvUjsQZST2yF0EsHHuNEdg',
+    object: {
+      uuid: 'VVXttCtQRZ2axbupmpAzXQ==',
+      id: 84175085006,
+      account_id: 'vvUjsQZST2yF0EsHHuNEdg',
+      host_id: 'Nn6etzffQBK1EQPMOh2XTA',
+      topic: "Sharma Computer Academy's Zoom Meeting",
+      type: 1,
+      start_time: '2025-12-29T08:54:02Z',
+      timezone: '',
+      host_email: 'scalive4u@gmail.com',
+      duration: 0,
+      total_size: 21277,
+      recording_count: 1,
+      share_url: 'https://us02web.zoom.us/rec/share/ZD7xgj3EAopDPDMrfQwFFkIt3hiGElzMLX7XulerTqLTDCw4P2YNgzTu00j-_kBs.7Q7CGVQLu6n6yoRk',
+      recording_files: [Array],
+      password: 'GBDF?g9p',
+      recording_play_passcode: 'DFHEAUrcImRgrVsB-gAAIAAAAL3_ElEVCqbMoKihVtA0paCZ8oNPuRjREDrJ7WImStZbNEmveiHBe-8sR7fONhmM7DAwMDAwNA',
+      on_prem: false
+    }
+  },
+  event_ts: 1766998497617,
+  event: 'recording.completed',
+  download_token: 'eyJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsInR5cCI6IkpXVCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJXZWJSZWNEb3dubG9hZCIsImFjY291bnRJZCI6InZ2VWpzUVpTVDJ5RjBFc0hIdU5FZGciLCJpc3MiOiJFdmVudENvbnN1bWVyUmVjRG93bmxvYWQiLCJtaWQiOiJWVlh0dEN0UVJaMmF4YnVwbXBBelhRPT0iLCJleHAiOjE3NjcwODQ5MTcsImlhdCI6MTc2Njk5ODUxNywidXNlcklkIjoiTm42ZXR6ZmZRQksxRVFQTU9oMlhUQSJ9.-jY4cxw2psLZrLkOnKyj4Ns4ziyhXPCs2h-Y5jaLMdbsJ2Ahpb3CRZifdiASaXTosB58qHS0hcZOkXr-HqF5'
+}

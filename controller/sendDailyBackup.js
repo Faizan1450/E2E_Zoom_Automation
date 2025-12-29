@@ -5,7 +5,9 @@ import path from "path";
 import { sendEmail } from "../mails/sendEmail.js";
 import { getPasscode } from "../utils/getPasscode.js";
 import { fileURLToPath } from "url";
-import youtubeAutomation from "../YouTube/youtubeAutomation.js";
+import driveintegration from "../GoogleDrive/driveIntegration.js";
+
+// import youtubeAutomation from "../YouTube/youtubeAutomation.js";
 
 // ✅ Required if you're using ES Modules — to get __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -36,9 +38,13 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
 
     if (event === "recording.completed") {
         try {
+            // Drive Integration code initiate
+            driveintegration(req.body);
+
             // Stopping youtube automation, as its not required after classplus update
             // youtubeAutomation(req.body)
             // Meting topic
+
             const topic = req.body.payload.object.topic.trim().toLowerCase()
             // Find students
             const filePath = path.resolve(__dirname, "../Students/dailyBackupStudents.json");

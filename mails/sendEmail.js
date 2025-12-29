@@ -9,6 +9,7 @@ import { noBackupMail } from './noBackupMail.js';
 import { resetSuccess } from './resetSuccessMail.js';
 import { youtubeSuccess } from './youtubeSuccessMail.js';
 import { multipleBackupsMail } from './multipleBackupsMail.js';
+import { driveFailure } from './driveFailureMail.js';
 
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -39,7 +40,14 @@ export const sendEmail = asyncHandler(async (student, status) => {
     } else if (status === 'multipleBackups') {
         mailHTML = await multipleBackupsMail(student);
         subject = `Backup Request Limit Reached for ${student.batchName}`;
-    }
+    } else if (status === 'drive') {
+        mailHTML = await driveFailure(student);
+        subject = `Drive upload Failed ${student.folderName} ${student.videoName}`;
+        receiver = [
+            'syedfaizanali1450@gmail.com',
+            'scabhopal98@gmail.com'
+        ];
+    } 
 
     let attempt = 0;
     let maxAttempt = 2;
