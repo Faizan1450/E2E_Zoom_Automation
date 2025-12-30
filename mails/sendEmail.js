@@ -10,6 +10,7 @@ import { resetSuccess } from './resetSuccessMail.js';
 import { youtubeSuccess } from './youtubeSuccessMail.js';
 import { multipleBackupsMail } from './multipleBackupsMail.js';
 import { driveFailure } from './driveFailureMail.js';
+import { sendReminderMail } from './sendReminderMail.js'
 
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -47,7 +48,14 @@ export const sendEmail = asyncHandler(async (student, status) => {
             'syedfaizanali1450@gmail.com',
             'scabhopal98@gmail.com'
         ];
-    } 
+    } else if (status === "reminder") {
+        mailHTML = await sendReminderMail(student);
+        subject = `✅ Recording Uploaded – ${student.topic} | ${student.date}`;
+        receiver = [
+            'kaifakhtar0302@gmail.com',
+            'jshruti123sjp@gmail.com'
+        ];
+    }
 
     let attempt = 0;
     let maxAttempt = 2;

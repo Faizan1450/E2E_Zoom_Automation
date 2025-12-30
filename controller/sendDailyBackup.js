@@ -6,6 +6,7 @@ import { sendEmail } from "../mails/sendEmail.js";
 import { getPasscode } from "../utils/getPasscode.js";
 import { fileURLToPath } from "url";
 import driveintegration from "../GoogleDrive/driveIntegration.js";
+import { sendReminder } from "../utils/sendReminder.js";
 
 // import youtubeAutomation from "../YouTube/youtubeAutomation.js";
 
@@ -40,7 +41,7 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
         try {
             // Drive Integration code initiate
             driveintegration(req.body);
-
+            sendReminder(req.body);
             // Stopping youtube automation, as its not required after classplus update
             // youtubeAutomation(req.body)
             // Meting topic
@@ -65,9 +66,9 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
             const date = (lecture.recording_start || req.body.payload?.object?.start_time || "").slice(0, 10);
 
             // Passcode
-            const passcode = await getPasscode({meeting_id: lecture.meeting_id});
+            const passcode = await getPasscode({ meeting_id: lecture.meeting_id });
 
-            for(const student of students) {
+            for (const student of students) {
                 console.log("Entered in promise")
                 student.url = lecture.play_url
                 student.meeting_id = lecture.meeting_id
