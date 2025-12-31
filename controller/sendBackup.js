@@ -15,7 +15,9 @@ const sendBackup = asyncHandler(async (req, resp) => {
         "scalive4u@gmail.com",
         "scazoombackup@gmail.com",
         "scabhopal98@gmail.com",
-        "ksachin95@gmail.com"
+        "ksachin95@gmail.com",
+        "sharma.computer.academy@gmail.com",
+        "ajaydhangar0101@gmail.com"
     ]
     let isVerified = verifiedMails.find(mail => mail.toLowerCase() === student.email.toLowerCase())
     if (!isVerified && student.count >= 2) {

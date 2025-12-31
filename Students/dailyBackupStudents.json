@@ -100,5 +100,17 @@
         "phone": "6265069276",
         "email": "nanamantiwari@gmail.com",
         "batchName": "Spring Microservices"
+    },
+    {
+        "name": "Shri Hari Pandey",
+        "phone": "9754816799",
+        "email": "shrihariabhishek12@gmail.com",
+        "batchName": "Front-end"
+    },
+    {
+        "name": "Jagmeet Singh",
+        "phone": "8586096613",
+        "email": "js2689314@gmail.com",
+        "batchName": "Spring (20-Aug)"
     }
 ]
