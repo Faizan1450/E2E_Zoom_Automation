@@ -20,7 +20,8 @@ const driveintegration = asyncHandler(async (webhookBody) => {
         // 2.) Download Zoom MP4
         videoStream = await downloadZoomVideo(webhookBody);
         folderName = sanitizeDriveFolderName(folderName);
-        videoName = payload.object.start_time.replace(/T/g, " ").replace(/Z/g, "");
+        const date = new Date(payload.object.start_time)
+        videoName = date.toLocaleString("sv-SE", { timeZone: "Asia/Kolkata", hour12: false });
 
         // 3) Upload to Drive i.e scabhopal98@gmail.com
         await uploadStream(videoStream.data, folderName, videoName);
