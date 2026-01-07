@@ -12,6 +12,7 @@ export const sendReminder = asyncHandler(async (webhookBody) => {
         "Java Full Stack with SpringBoot",
         "Front-end",
         "Generative AI",
+        "SpringBoot Project (17-DEC)"
     ];
     // "Sharma Computer Academy's Zoom Meeting"
 
@@ -20,5 +21,5 @@ export const sendReminder = asyncHandler(async (webhookBody) => {
         return; // exit without processing
     }
 
-    await sendEmail({topic, date}, "reminder")
+    await sendEmail({ topic, date }, "reminder")
 })
