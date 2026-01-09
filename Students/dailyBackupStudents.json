@@ -9,19 +9,19 @@
         "name": "Anish Gupta",
         "phone": "9617130889",
         "email": "anishgupta0066@gmail.com",
-        "batchName": "GenWizard (30-Aug)"
+        "batchName": "Generative AI"
     },
     {
         "name": "Sumit Kalra",
         "phone": "7838402000",
         "email": "sumitkalra120@gmail.com",
-        "batchName": "GenWizard (30-Aug)"
+        "batchName": "Generative AI"
     },
     {
         "name": "Arth Sharma",
         "phone": "9630233051",
         "email": "arth.sharma2010@gmail.com",
-        "batchName": "GenWizard (30-Aug)"
+        "batchName": "Generative AI"
     },
     {
         "name": "Somil Khare",
@@ -33,7 +33,7 @@
         "name": "Shruti Jain",
         "phone": "8827666109",
         "email": "jshruti123sjp@gmail.com",
-        "batchName": "GenWizard (30-Aug)"
+        "batchName": "Generative AI"
     },
     {
         "name": "Shri Hari Pandey",
@@ -51,7 +51,7 @@
         "name": "Jaydeep Jitendra",
         "phone": "7488462727",
         "email": "jjaydeep200k@gmail.com",
-        "batchName": "GenWizard (30-Aug)"
+        "batchName": "Generative AI"
     },
     {
         "name": "Jaydeep Jitendra",
@@ -93,7 +93,7 @@
         "name": "Syed Muneeb Ali",
         "phone": "6262443189",
         "email": "alimuneeb3565@gmail.com",
-        "batchName": "GenWizard (30-Aug)"
+        "batchName": "Generative AI"
     },
     {
         "name": "Naman Tiwari",
@@ -112,5 +112,11 @@
         "phone": "8586096613",
         "email": "js2689314@gmail.com",
         "batchName": "Spring (20-Aug)"
+    },
+    {
+        "name": "Kumar Gourab swain",
+        "phone": "9861084002",
+        "email": "kumargourab065@gmail.com",
+        "batchName": "Generative AI"
     }
 ]
