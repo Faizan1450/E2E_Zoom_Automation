@@ -12,7 +12,8 @@ export const sendReminder = asyncHandler(async (webhookBody) => {
         "Java Full Stack with SpringBoot",
         "Front-end",
         "Generative AI",
-        "SpringBoot Project (17-DEC)"
+        "SpringBoot Project (17-DEC)",
+        "TypeScript Batch (29-Jan-26)"
     ];
     // "Sharma Computer Academy's Zoom Meeting"
 
