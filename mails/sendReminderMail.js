@@ -66,14 +66,12 @@ export const sendReminderMail = async ({ topic, date }) => {
     }
 
                       <p style="margin:0 0 14px 0;font-size:16px;line-height:1.6;color:#374151;">
-                        The recording is available in the <b>Drive</b>.  
-                        Please check the Drive, download the video, and upload it on the
-                        <b>SCALive application</b>.
+                        The recording has been uploaded to the <b>SCALive application</b>.
+                        Please cross-check and confirm the lecture is available. If it's missing, download it from the Drive and re-upload it manually..
                       </p>
 
                       <p class="muted" style="margin:0;font-size:13px;line-height:1.6;color:#6b7280;">
-                        If you face any issue while accessing the Drive or during the upload,
-                        please let <b>Faizan Sir</b> know.
+                      For any issues, please inform <b>Faizan Sir</b>.
                       </p>
                     </div>
                   </td>

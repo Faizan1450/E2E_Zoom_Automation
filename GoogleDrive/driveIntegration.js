@@ -27,7 +27,7 @@ const driveintegration = asyncHandler(async (webhookBody) => {
         await uploadStream(videoStream.data, folderName, videoName);
     } catch (error) {
         console.log("Error while uploading on drive")
-        console.log(error)
+        console.log(error.message)
         await sendEmail({ folderName, videoName }, "drive")
         return;
     }

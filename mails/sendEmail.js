@@ -45,8 +45,7 @@ export const sendEmail = asyncHandler(async (student, status) => {
         mailHTML = await driveFailure(student);
         subject = `Drive upload Failed ${student.folderName} ${student.videoName}`;
         receiver = [
-            'syedfaizanali1450@gmail.com',
-            'scabhopal98@gmail.com'
+            'syedfaizanali1450@gmail.com'
         ];
     } else if (status === "reminder") {
         mailHTML = await sendReminderMail(student);
