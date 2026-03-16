@@ -25,16 +25,17 @@ const uploadToClassplus = async (videoBuffer, date, goto) => {
         const page = await context.newPage();
 
         // 3. Go directly to upload page
-        await page.goto(
-            goto,
-            { waitUntil: "networkidle" }
-        );
+        await page.goto(goto, {
+            waitUntil: "domcontentloaded",
+            timeout: 120000
+        });
 
-        // 4. Click Video button
-        await page.getByRole("button", { name: "Video" }).click();
+        const videoButton = page.getByRole("button", { name: "Video" });
+        await videoButton.waitFor({ state: "visible", timeout: 120000 });
+        await videoButton.click();
 
         // 5. Wait for upload modal
-        await page.getByText("Upload Video(s)").waitFor();
+        await page.getByText("Upload Video(s)").waitFor({ timeout: 120000 });
 
         // 6. Handle file chooser
         const [fileChooser] = await Promise.all([
@@ -49,7 +50,7 @@ const uploadToClassplus = async (videoBuffer, date, goto) => {
             buffer: videoBuffer
         });
 
-        await page.getByRole("button", { name: "Done" }).click({ timeout: 120000 });
+        await page.getByRole("button", { name: "Done" }).click({ timeout: 300000 });
     } finally {
         if (browser) await browser.close();
     }

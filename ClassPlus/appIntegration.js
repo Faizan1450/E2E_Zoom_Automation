@@ -5,8 +5,7 @@ import asyncHandler from "express-async-handler";
 
 const appIntegration = asyncHandler(async (webhookBody, batchName, date) => {
     date = date.split(" ")[0];
-    console.log("Classplas App Integration")
-    console.log(`Request Received for: ${batchName} + ( ${date} )`)
+    console.log(`🎬 Classplas App Integration ${batchName}`)
 
     const resp = await downloadZoomVideo(webhookBody);
     const chunks = [];
@@ -29,6 +28,7 @@ const appIntegration = asyncHandler(async (webhookBody, batchName, date) => {
 
     try {
         await uploadToClassplus(videoBuffer, date, gotoUrl)
+        console.log("Lecture Uploaded on SCALive application")
     } catch (error) {
         console.log(error.message);
     }
