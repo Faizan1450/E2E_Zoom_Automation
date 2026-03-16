@@ -15,7 +15,7 @@ const CLASSPLUS_URLS = {
     "sql (jfs online)": { folderId: 48485070, courseId: 775723 },
     "springboot project (25-feb)": { folderId: 48398073, courseId: 805891 },
     "front-end by paramjeet sir": { folderId: 47375905, courseId: 775723 },
-    "sharma computer academy's personal meeting room": { folderId: 49248245, courseId: 814256 },
+    "sharma computer academy's personal meeting room": { folderId: 49270496, courseId: 814611 },
 };
 
 const CLASSPLUS_BATCHES = [
