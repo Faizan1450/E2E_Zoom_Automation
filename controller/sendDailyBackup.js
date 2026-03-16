@@ -6,7 +6,7 @@ import { sendEmail } from "../mails/sendEmail.js";
 import { getPasscode } from "../utils/getPasscode.js";
 import { fileURLToPath } from "url";
 import driveintegration from "../GoogleDrive/driveIntegration.js";
-import { sendReminder } from "../utils/sendReminder.js";
+import appIntegration from "../ClassPlus/appIntegration.js";
 
 // import youtubeAutomation from "../YouTube/youtubeAutomation.js";
 
@@ -41,7 +41,7 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
         try {
             // Drive Integration code initiate
             driveintegration(req.body);
-            sendReminder(req.body);
+            appIntegration(req.body);
             // Stopping youtube automation, as its not required after classplus update
             // youtubeAutomation(req.body)
             // Meting topic

@@ -17,8 +17,9 @@ export const sendReminder = asyncHandler(async (webhookBody) => {
     }
 
     // Here I need code to upload on ClassPlus
-    await appIntegration(webhookBody, topic, date);
-    await sendEmail({ topic, date }, "reminder")
+    const status = await appIntegration(webhookBody, topic, date);
+    const statusConstant = status ? "classplus_success" : "classplus_failure"
+    await sendEmail({ topic, date, url }, statusConstant);
 })
 
 function convertDateFormat(dateStr) {

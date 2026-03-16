@@ -10,7 +10,8 @@ import { resetSuccess } from './resetSuccessMail.js';
 import { youtubeSuccess } from './youtubeSuccessMail.js';
 import { multipleBackupsMail } from './multipleBackupsMail.js';
 import { driveFailure } from './driveFailureMail.js';
-import { sendReminderMail } from './sendReminderMail.js'
+import { classplusSuccessMail } from './classplusSuccessMail.js'
+import { classplusFailureMail } from './classplusFailureMail.js'
 
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -47,12 +48,20 @@ export const sendEmail = asyncHandler(async (student, status) => {
         receiver = [
             'syedfaizanali1450@gmail.com'
         ];
-    } else if (status === "reminder") {
-        mailHTML = await sendReminderMail(student);
-        subject = `✅ Recording Uploaded – ${student.topic} | ${student.date}`;
+    } else if (status === "classplus_success") {
+        mailHTML = await classplusSuccessMail(student);
+        subject = `✅ Recording Uploaded – ${student.batchName} | ${student.date}`;
         receiver = [
             'kaifakhtar0302@gmail.com',
             'jshruti123sjp@gmail.com'
+        ];
+    } else if (status === "classplus_failure") {
+        mailHTML = await classplusFailureMail(student);
+        subject = `⚠️ Recording Upload Failed – ${student.batchName} | ${student.date}`;
+        receiver = [
+            'kaifakhtar0302@gmail.com',
+            'jshruti123sjp@gmail.com',
+            'syedfaizanali1450@gmail.com'
         ];
     }
 

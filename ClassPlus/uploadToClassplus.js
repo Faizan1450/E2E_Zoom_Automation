@@ -1,59 +1,54 @@
-import { chromium } from 'playwright';
+/**
+ * Upload video to ClassPlus via Direct API
+ * 
+ * Accepts a FILE PATH (not a buffer) — reads from disk during upload
+ * to avoid holding 200MB+ videos in memory.
+ */
 
-const uploadToClassplus = async (videoBuffer, date, goto) => {
-    const base64Auth = process.env.PLAYWRIGHT_AUTH_BASE64
-    if (!base64Auth) {
-        throw new Error("PLAYWRIGHT_AUTH_BASE64 is missing in environment");
-    }
-    const storageState = JSON.parse(Buffer.from(base64Auth, "base64").toString("utf-8"));
+import fs from "fs";
+import { getAccessToken } from "./classplusAuth.js";
+import {
+    checkUploadDestination,
+    initiateMultipartUpload,
+    startResumableUpload,
+    uploadVideoToGCS,
+    completeMultipartUpload,
+} from "./classplusAPI.js";
 
+/**
+ * @param {string} filePath  - Path to video file on disk
+ * @param {string} date      - Date string for lecture name (e.g. "17-03-2026")
+ * @param {number} folderId  - ClassPlus folder ID
+ * @param {number} courseId  - ClassPlus course ID
+ */
+const uploadToClassplus = async (filePath, date, folderId, courseId) => {
+    const token = getAccessToken();
+    const fileName = `New Lecture (${date}).mp4`;
+    const fileSize = fs.statSync(filePath).size;
 
-    let browser;
+    // Step 1: Check destination
+    await checkUploadDestination(token);
 
-    try {
-        // 1. Launch browser
-        browser = await chromium.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            slowMo: 0
-        });
+    // Step 2: Get signed GCS URL
+    const initResult = await initiateMultipartUpload(token, fileName, fileSize, courseId);
+    const signedUrl = initResult.response?.endPoint;
+    const uuid = initResult.uuid;
+    if (!signedUrl) throw new Error("Failed to get signed URL from ClassPlus");
 
-        const context = await browser.newContext({
-            storageState
-        });
+    const videoId = new URL(signedUrl).pathname.split("/").pop().replace(".mp4", "");
 
-        const page = await context.newPage();
+    // Step 3: Start resumable upload
+    const resumableUrl = await startResumableUpload(signedUrl);
 
-        // 3. Go directly to upload page
-        await page.goto(goto, {
-            waitUntil: "domcontentloaded",
-            timeout: 120000
-        });
+    // Step 4: Upload video from disk (not from memory)
+    await uploadVideoToGCS(resumableUrl, filePath, fileSize);
 
-        const videoButton = page.getByRole("button", { name: "Video" });
-        await videoButton.waitFor({ state: "visible", timeout: 120000 });
-        await videoButton.click();
-
-        // 5. Wait for upload modal
-        await page.getByText("Upload Video(s)").waitFor({ timeout: 120000 });
-
-        // 6. Handle file chooser
-        const [fileChooser] = await Promise.all([
-            page.waitForEvent("filechooser"),
-            page.getByRole("button", { name: "Select File(s)" }).click()
-        ]);
-
-        // 7. Select video file
-        await fileChooser.setFiles({
-            name: `New Lecture (${date}).mp4`,
-            mimeType: "video/mp4",   // change if your video is a different format
-            buffer: videoBuffer
-        });
-
-        await page.getByRole("button", { name: "Done" }).click({ timeout: 300000 });
-    } finally {
-        if (browser) await browser.close();
-    }
+    // Step 5: Register in ClassPlus
+    const result = await completeMultipartUpload(token, {
+        videoId, uuid, fileSize, fileName, signedUrl, folderId, courseId,
+    });
+    
+    return result;
 };
 
 export default uploadToClassplus;

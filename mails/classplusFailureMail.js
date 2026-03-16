@@ -1,6 +1,8 @@
-export const sendReminderMail = async ({ topic, date }) => {
-  const safeTopic = escapeHtml(topic ?? "Session");
+export const classplusFailureMail = async ({ batchName, date, url, error }) => {
+  const safeTopic = escapeHtml(batchName ?? "Session");
   const safeDate = escapeHtml(date ?? "");
+  const safeUrl = escapeHtml(url ?? "");
+  const safeError = escapeHtml(error ?? "An unexpected error occurred");
 
   return `<!doctype html>
 <html lang="en">
@@ -8,7 +10,7 @@ export const sendReminderMail = async ({ topic, date }) => {
 <meta charset="utf-8">
 <meta name="x-apple-disable-message-reformatting">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meeting Completed</title>
+<title>Upload Failed</title>
 <style>
   @media (prefers-color-scheme: dark) {
     body { background:#0b0e14 !important; }
@@ -19,9 +21,8 @@ export const sendReminderMail = async ({ topic, date }) => {
 </head>
 
 <body style="margin:0;padding:0;background:#f5f7fb;">
-  <!-- Preheader -->
   <div style="display:none;max-height:0;overflow:hidden;opacity:0;">
-    ${safeTopic} meeting completed. Recording ready for upload.
+    Upload failed for ${safeTopic}. Immediate action required.
   </div>
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f7fb;">
@@ -42,7 +43,7 @@ export const sendReminderMail = async ({ topic, date }) => {
           <!-- Card -->
           <tr>
             <td class="card" style="background:#ffffff;border-radius:14px;
-                                    border:1px solid #e5e7eb;
+                                    border:1px solid #fca5a5;
                                     box-shadow:0 6px 20px rgba(17,24,39,0.08);">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
 
@@ -50,29 +51,42 @@ export const sendReminderMail = async ({ topic, date }) => {
                 <tr>
                   <td style="padding:28px;">
                     <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
-                      <h1 style="margin:0 0 12px 0;font-size:20px;color:#111827;">
-                        Meeting Completed Successfully
+
+                      <h1 style="margin:0 0 12px 0;font-size:20px;color:#dc2626;">
+                        ⚠️ Upload Failed — Immediate Action Required
                       </h1>
 
                       <p style="margin:0 0 14px 0;font-size:16px;line-height:1.6;color:#374151;">
-                        The meeting on <b>${safeTopic}</b> has been successfully completed.
+                        The meeting on <b>${safeTopic}</b> has been completed, but the automatic upload to the <b>SCALive application has failed</b>.
                       </p>
 
-                      ${safeDate
-      ? `<p style="margin:0 0 14px 0;font-size:15px;line-height:1.6;color:#374151;">
-                               <b>Date:</b> ${safeDate}
-                             </p>`
-      : ``
-    }
+                      ${safeDate ? `
+                      <p style="margin:0 0 14px 0;font-size:15px;line-height:1.6;color:#374151;">
+                        <b>Date:</b> ${safeDate}
+                      </p>` : ""}
+
+                      <!-- Error Box -->
+                      <div style="margin:0 0 18px 0;padding:12px 16px;background:#fef2f2;
+                                  border-left:4px solid #dc2626;border-radius:6px;">
+                        <p style="margin:0;font-size:14px;color:#b91c1c;">
+                          <b>Error:</b> ${safeError}
+                        </p>
+                      </div>
+
+                      ${safeUrl ? `
+                      <p style="margin:0 0 14px 0;font-size:15px;line-height:1.6;color:#374151;">
+                        <b>Manual Upload Link:</b><br>
+                        <a href="${safeUrl}" style="color:#2563eb;word-break:break-all;">${safeUrl}</a>
+                      </p>` : ""}
 
                       <p style="margin:0 0 14px 0;font-size:16px;line-height:1.6;color:#374151;">
-                        The recording has been uploaded to the <b>SCALive application</b>.
-                        Please cross-check and confirm the lecture is available. If it's missing, download it from the Drive and re-upload it manually..
+                        Please open the link above, download the recording, and upload it manually to the SCALive application as soon as possible, before students attempt to access it.
                       </p>
 
                       <p class="muted" style="margin:0;font-size:13px;line-height:1.6;color:#6b7280;">
-                      For any issues, please inform <b>Faizan Sir</b>.
+                        For any issues, please inform <b>Faizan Sir</b> immediately.
                       </p>
+
                     </div>
                   </td>
                 </tr>
