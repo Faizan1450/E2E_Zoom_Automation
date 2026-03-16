@@ -57,7 +57,6 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
             })
 
             if (students.length === 0) {
-                console.warn(`⚠️ No students matched topic "${topic}"`);
                 return;
             }
 
