@@ -13,7 +13,7 @@ const uploadToClassplus = async (videoBuffer, date, goto) => {
     try {
         // 1. Launch browser
         browser = await chromium.launch({
-            headless: false,
+            headless: true,
             slowMo: 0
         });
 
