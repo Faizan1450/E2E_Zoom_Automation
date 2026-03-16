@@ -14,6 +14,7 @@ const uploadToClassplus = async (videoBuffer, date, goto) => {
         // 1. Launch browser
         browser = await chromium.launch({
             headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
             slowMo: 0
         });
 
