@@ -14,7 +14,7 @@ const appIntegration = asyncHandler(async (webhookBody, videoStream) => {
 
     // 1.) Prepare metadata
     const date = convertDateFormat(payload.object.start_time);
-    const batchName = payload.object.topic || "Zoom Recording";
+    const batchName = payload.object.topic.trim() || "Zoom Recording";
 
     // 1. Get ClassPlus mapping for this batch
     const batch = CLASSPLUS_URLS[batchName.toLowerCase()];
