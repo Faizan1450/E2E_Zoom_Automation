@@ -17,12 +17,12 @@ const appIntegration = asyncHandler(async (webhookBody) => {
     const date = convertDateFormat(payload.object.start_time);
     const batchName = payload.object.topic || "Zoom Recording";
 
-    console.log(`🎬 ClassPlus App Integration: ${batchName}`);
-
     // 1. Get ClassPlus mapping for this batch
     const batch = CLASSPLUS_URLS[batchName.toLowerCase()];
     if (!batch) return;
 
+    console.log(`🎬 ClassPlus App Integration: ${batchName}`);
+    
     // 2. Download Zoom video → stream directly to disk (memory-safe)
     const tempFile = path.join(TEMP_DIR, `lecture_${Date.now()}.mp4`);
     const url = `${process.env.CLASSPLUS_BASE_URL}${batch.folderId}?id=${batch.courseId}`;
