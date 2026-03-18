@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import { pipeline } from "stream/promises";
-import downloadZoomVideo from "../YouTube/downloadZoomVideo.js";
 import uploadToClassplus from "./uploadToClassplus.js";
 import { CLASSPLUS_URLS } from "./classplusBatches.js";
 import asyncHandler from "express-async-handler";
@@ -9,7 +8,7 @@ import { sendEmail } from "../mails/sendEmail.js";
 
 const TEMP_DIR = "/tmp";
 
-const appIntegration = asyncHandler(async (webhookBody) => {
+const appIntegration = asyncHandler(async (webhookBody, videoStream) => {
     const payload = webhookBody?.payload;
     if (!payload?.object) throw new Error("Invalid webhook body: missing payload.object");
 
@@ -27,9 +26,8 @@ const appIntegration = asyncHandler(async (webhookBody) => {
     const tempFile = path.join(TEMP_DIR, `lecture_${Date.now()}.mp4`);
     const url = `${process.env.CLASSPLUS_BASE_URL}${batch.folderId}?id=${batch.courseId}`;
     try {
-        const resp = await downloadZoomVideo(webhookBody);
         const writer = fs.createWriteStream(tempFile);
-        await pipeline(resp.data, writer);
+        await pipeline(videoStream.data, writer);
 
         const fileSize = fs.statSync(tempFile).size;
         if (fileSize === 0) {

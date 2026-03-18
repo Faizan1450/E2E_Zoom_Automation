@@ -1,10 +1,9 @@
 // GoogleDrive/driveIntegration.js
 import asyncHandler from "express-async-handler";
-import downloadZoomVideo from "../YouTube/downloadZoomVideo.js";
 import { sendEmail } from "../mails/sendEmail.js";
 import uploadStream from "./uploadStream.js";
 
-const driveintegration = asyncHandler(async (webhookBody) => {
+const driveintegration = asyncHandler(async (webhookBody, videoStream) => {
     const payload = webhookBody?.payload;
     if (!payload?.object) throw new Error("Invalid webhook body: missing payload.object");
 
@@ -14,11 +13,9 @@ const driveintegration = asyncHandler(async (webhookBody) => {
 
     console.log(`🎬 Processing Drive automation for topic: "${topic}"`);
     let folderName = `${id} ${topic}`;
-    let videoStream;
     let videoName;
     try {
         // 2.) Download Zoom MP4
-        videoStream = await downloadZoomVideo(webhookBody);
         folderName = sanitizeDriveFolderName(folderName);
         const date = new Date(payload.object.start_time)
         videoName = date.toLocaleString("sv-SE", { timeZone: "Asia/Kolkata", hour12: false });

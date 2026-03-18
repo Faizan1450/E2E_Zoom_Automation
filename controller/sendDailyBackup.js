@@ -7,6 +7,7 @@ import { getPasscode } from "../utils/getPasscode.js";
 import { fileURLToPath } from "url";
 import driveintegration from "../GoogleDrive/driveIntegration.js";
 import appIntegration from "../ClassPlus/appIntegration.js";
+import downloadZoomVideo from "../YouTube/downloadZoomVideo.js";
 
 // import youtubeAutomation from "../YouTube/youtubeAutomation.js";
 
@@ -40,8 +41,9 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
     if (event === "recording.completed") {
         try {
             // Drive Integration code initiate
-            driveintegration(req.body);
-            appIntegration(req.body);
+            const videoStream = await downloadZoomVideo(req.body);
+            driveintegration(req.body, videoStream);
+            appIntegration(req.body, videoStream);
             // Stopping youtube automation, as its not required after classplus update
             // youtubeAutomation(req.body)
             // Meting topic
@@ -81,7 +83,7 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
                 await sleep(1000);
             }
         } catch (error) {
-            console.log(error)
+            console.log(error.message)
             return error
         }
     }
