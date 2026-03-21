@@ -1,8 +1,8 @@
-export const classplusFailureMail = async ({ batchName, date, url, error }) => {
+export const classplusFailureMail = async ({ batchName, date, url, message }) => {
   const safeTopic = escapeHtml(batchName ?? "Session");
   const safeDate = escapeHtml(date ?? "");
   const safeUrl = escapeHtml(url ?? "");
-  const safeError = escapeHtml(error ?? "An unexpected error occurred");
+  const safeError = escapeHtml(message ?? "An unexpected error occurred");
 
   return `<!doctype html>
 <html lang="en">

@@ -1,72 +1,38 @@
-import fs from "fs";
-import path from "path";
-import { pipeline } from "stream/promises";
-import uploadToClassplus from "./uploadToClassplus.js";
-import { CLASSPLUS_URLS } from "./classplusBatches.js";
 import asyncHandler from "express-async-handler";
+import axios from "axios";
 import { sendEmail } from "../mails/sendEmail.js";
 
-const TEMP_DIR = "/tmp";
-
-const appIntegration = asyncHandler(async (webhookBody, videoStream) => {
-    const payload = webhookBody?.payload;
-    if (!payload?.object) throw new Error("Invalid webhook body: missing payload.object");
-
-    // 1.) Prepare metadata
-    const date = convertDateFormat(payload.object.start_time);
-    const batchName = payload.object.topic.trim() || "Zoom Recording";
-
-    // 1. Get ClassPlus mapping for this batch
-    const batch = CLASSPLUS_URLS[batchName.toLowerCase()];
-    if (!batch) return;
-
-    console.log(`🎬 ClassPlus App Integration: ${batchName}`);
-    
-    // 2. Download Zoom video → stream directly to disk (memory-safe)
-    const tempFile = path.join(TEMP_DIR, `lecture_${Date.now()}.mp4`);
-    const url = `${process.env.CLASSPLUS_BASE_URL}${batch.folderId}?id=${batch.courseId}`;
+const appIntegration = asyncHandler(async (webhookBody) => {
+    const classplusIntegrationEndpoint = process.env.CLASSPLUS_INTEGRATION
     try {
-        const writer = fs.createWriteStream(tempFile);
-        await pipeline(videoStream.data, writer);
+        const response = await axios.post(
+            classplusIntegrationEndpoint,
+            webhookBody,
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
 
-        const fileSize = fs.statSync(tempFile).size;
-        if (fileSize === 0) {
-            console.log("❌ Downloaded file is empty for:", batchName);
-            await sendEmail({ batchName, date, url, error:"Downloaded file is empty"}, "classplus_failure");
-            return;
-        }
+        if (response.data?.isIgnore) return;
+        let message = response.data?.message;
+        let batchName = response.data?.payload?.batchName;
+        let date = response.data?.payload?.date;
+        let url = response.data?.payload?.url;
 
-        // 3. Upload to ClassPlus via API (reads from disk, not memory)
-        await uploadToClassplus(tempFile, date.split(" ")[0], batch.folderId, batch.courseId);
-        console.log(`✅ Lecture uploaded on SCALive application: ${batchName}`);
-        await sendEmail({ batchName, date, url}, "classplus_success");
+        await sendEmail({ batchName, date, url, message }, "classplus_success");
+
     } catch (error) {
-        console.log("❌ ClassPlus Upload Error:", error.message);
-        await sendEmail({ batchName, date, url, error: error.message }, "classplus_failure");
-    } finally {
-        // 4. Always cleanup temp file
-        if (fs.existsSync(tempFile)) {
-            fs.unlinkSync(tempFile);
-        }
+        let message = error.response?.data?.message;
+        let batchName = error.response?.data?.payload?.batchName || "Unknown";
+        let date = error.response?.data?.payload?.date || new Date().toLocaleString("en-IN", {timeZone: "Asia/Kolkata"});
+        let url = error.response?.data?.payload?.url;
+
+        await sendEmail({ batchName, date, url, message }, "classplus_failure");
+        console.log("API Error:", message || error.message);
     }
-    return;
+
 });
-
-function convertDateFormat(dateStr) {
-    // Input: "2026-03-14T15:38:21Z" (UTC)
-    const utcDate = new Date(dateStr);
-
-    // Convert to IST (UTC + 5:30)
-    const istDate = new Date(utcDate.getTime() + (5.5 * 60 * 60 * 1000));
-
-    const day = String(istDate.getUTCDate()).padStart(2, "0");
-    const month = String(istDate.getUTCMonth() + 1).padStart(2, "0");
-    const year = istDate.getUTCFullYear();
-    const hours = String(istDate.getUTCHours()).padStart(2, "0");
-    const minutes = String(istDate.getUTCMinutes()).padStart(2, "0");
-    const seconds = String(istDate.getUTCSeconds()).padStart(2, "0");
-
-    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-}
 
 export default appIntegration;
