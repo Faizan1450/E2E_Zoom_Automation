@@ -3,6 +3,7 @@ import axios from "axios";
 import { sendEmail } from "../mails/sendEmail.js";
 
 const appIntegration = asyncHandler(async (webhookBody) => {
+    console.log(`🎬 ClassPlus App Integration`);
     const classplusIntegrationEndpoint = process.env.CLASSPLUS_INTEGRATION
     try {
         const response = await axios.post(
@@ -15,7 +16,6 @@ const appIntegration = asyncHandler(async (webhookBody) => {
             }
         );
 
-        if (response.data?.isIgnore) return;
         let message = response.data?.message;
         let batchName = response.data?.payload?.batchName;
         let date = response.data?.payload?.date;
@@ -24,6 +24,7 @@ const appIntegration = asyncHandler(async (webhookBody) => {
         await sendEmail({ batchName, date, url, message }, "classplus_success");
 
     } catch (error) {
+        if (error.response?.data?.isIgnore) return;
         let message = error.response?.data?.message;
         let batchName = error.response?.data?.payload?.batchName || "Unknown";
         let date = error.response?.data?.payload?.date || new Date().toLocaleString("en-IN", {timeZone: "Asia/Kolkata"});
