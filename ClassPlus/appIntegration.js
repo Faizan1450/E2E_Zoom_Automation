@@ -38,8 +38,6 @@ const appIntegration = asyncHandler(async (webhookBody) => {
     } catch (error) {
         if (error.response?.data?.isIgnore) return;
         let message = error.response?.data?.message || error.message;;
-        let batchName = error.response?.data?.payload?.batchName || "Unknown";
-        let date = error.response?.data?.payload?.date || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
         let url = error.response?.data?.payload?.url;
 
         await sendEmail({ batchName, date, url, message }, "classplus_failure");
