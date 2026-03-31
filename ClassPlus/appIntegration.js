@@ -3,12 +3,12 @@ import axios from "axios";
 import { sendEmail } from "../mails/sendEmail.js";
 
 const appIntegration = asyncHandler(async (webhookBody) => {
-    console.log(`🎬 ClassPlus App Integration`);
 
     const payload = webhookBody?.payload;
 
     // ✅ Validation
     if (!payload?.object) {
+        console.log(`🎬 ClassPlus App Integration`);
         console.error("Invalid webhook body: missing payload.object")
         return 
     }
@@ -32,11 +32,12 @@ const appIntegration = asyncHandler(async (webhookBody) => {
         // let batchName = response.data?.payload?.batchName;
         // let date = response.data?.payload?.date;
         let url = response.data?.payload?.url;
-
+        console.log(`🎬 ClassPlus App Integration`);
         await sendEmail({ batchName, date, url, message }, "classplus_success");
 
     } catch (error) {
         if (error.response?.data?.isIgnore) return;
+        console.log(`🎬 ClassPlus App Integration`);
         let message = error.response?.data?.message || error.message;;
         let url = error.response?.data?.payload?.url;
 
