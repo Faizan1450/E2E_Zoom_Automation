@@ -43,7 +43,7 @@ const sendDailyBackup = asyncHandler(async (req, resp) => {
             // Drive Integration code initiate
             const videoStream = await downloadZoomVideo(req.body);
             await driveintegration(req.body, videoStream);
-            await appIntegration(req.body);
+            // await appIntegration(req.body);
             // Stopping youtube automation, as its not required after classplus update
             // youtubeAutomation(req.body)
             // Meting topic
